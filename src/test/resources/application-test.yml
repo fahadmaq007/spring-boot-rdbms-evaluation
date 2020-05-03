@@ -1,0 +1,35 @@
+spring:
+  batch:
+    job:
+      enabled: false
+  datasource:
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    username:
+    password:
+    initialize: false
+    driver-class-name: org.h2.Driver
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 20
+      idleTimeout: 30000
+      poolName: SpringBootJPAHikariCP
+      maxLifetime: 2000000
+      connectionTimeout: 10000
+  jpa:
+    show_sql: false
+    database: h2
+    hibernate.ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: false
+        jdbc:
+          batch_size: 100
+        order_inserts: true
+        order_updates: true
+logging:
+  level:
+    org:
+      hibernate: INFO
+      springframework: INFO
+    com:
+      maqs: DEBUG

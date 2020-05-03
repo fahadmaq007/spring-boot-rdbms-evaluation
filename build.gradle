@@ -21,14 +21,21 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	runtimeOnly 'org.postgresql:postgresql'
+
+	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: '2.11.0'
+	compile('commons-io:commons-io:2.5')
+	compile('commons-lang:commons-lang:2.6')
+
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.assertj:assertj-core:3.4.1')
+	testCompile('com.h2database:h2:1.4.200')
+	testCompile('junit:junit:4.12')
+	testImplementation 'org.springframework.boot:spring-boot-devtools'
 }
 
 test {
