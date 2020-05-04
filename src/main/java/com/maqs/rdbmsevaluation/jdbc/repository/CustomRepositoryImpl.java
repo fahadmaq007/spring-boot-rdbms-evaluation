@@ -48,7 +48,7 @@ public class CustomRepositoryImpl<T, ID> implements CustomRepository<T, ID> {
 
     @Override
     public int[] batchUpdate(String sql, List<T> list) {
-        namedParameterJdbcOperations.getJdbcOperations().batchUpdate(sql, list, 50, (ps, i) -> {
+        namedParameterJdbcOperations.getJdbcOperations().batchUpdate(sql, list, 100, (ps, i) -> {
             Rating r = (Rating) i;
             ps.setLong(1, r.getUserId());
             ps.setLong(2, r.getMovieId());
