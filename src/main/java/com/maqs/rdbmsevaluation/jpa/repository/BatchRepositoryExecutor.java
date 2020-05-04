@@ -1,5 +1,6 @@
 package com.maqs.rdbmsevaluation.jpa.repository;
 
+import com.maqs.rdbmsevaluation.jdbc.repository.CustomRepository;
 import com.maqs.rdbmsevaluation.util.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.TaskExecutor;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 public class BatchRepositoryExecutor {
 
     private static  final int BATCH_SIZE = 1000;
+
+    private static final String INSERT_RATING = "insert into rating (user_id, movie_id, rating, rated_on) values (?,?,?,?)";
 
 //    public <E> List<String> upsert(EntityJdbcTemplate<E> jdbcTemplate , List<E> list) throws Exception {
 //        long start = System.currentTimeMillis();
@@ -109,11 +112,23 @@ public class BatchRepositoryExecutor {
     }
 
     private void saveAndFlush(CrudRepository repository, List list) throws Exception {
-        for (Object e: list) {
-            repository.save(e);
+        if (repository instanceof CustomRepository) {
+            log.debug("withInsert " + list.size());
+//            ParameterizedPreparedStatementSetter<Rating> setter = (ps, i) -> {
+//                Rating r = i;
+//                ps.setLong(1, r.getUserId());
+//                ps.setLong(2, r.getMovieId());
+//                ps.setDouble(3, r.getRating());
+//                ps.setDate(4, new Date(r.getRatedOn().getTime()));
+//            };
+            ((CustomRepository)repository).batchUpdate(INSERT_RATING, list);
+//            for (Object e: list) {
+//                ((WithInsert)repository).insert(e);
+//            }
+        } else {
+            repository.saveAll(list);
         }
-//        repository.saveAll(list);
-//        repository.flush();
+
     }
 
     public static Collection<String> getResults(List<Future<String>> futures) {

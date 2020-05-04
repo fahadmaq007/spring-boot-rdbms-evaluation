@@ -18,7 +18,7 @@ public class Movie {
     public static final String[] COLUMNS = {"id", "title", "genres"};
 
     @Id
-    @JsonProperty(value = "noId")
+    @JsonProperty(value = "id")
     private Long id;
 
     @JsonProperty(value = "title")

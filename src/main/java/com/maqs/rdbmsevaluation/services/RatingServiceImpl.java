@@ -32,9 +32,6 @@ public class RatingServiceImpl extends AbstractService implements RatingService 
     @Autowired
     private TaskExecutor taskExecutor;
 
-//    @Autowired
-//    private RatingJdbcTemplate ratingJdbcTemplate;
-
     @Override
     public Collection<String> importCsvFileThreadExecutor(File file, char separator) throws ServiceException {
         Collection<String> result = null;

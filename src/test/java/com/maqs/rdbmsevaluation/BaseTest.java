@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.test.context.ActiveProfiles;
 
 @Slf4j
-@ActiveProfiles("test")
+@ActiveProfiles("prod")
 public abstract class BaseTest {
 
 }

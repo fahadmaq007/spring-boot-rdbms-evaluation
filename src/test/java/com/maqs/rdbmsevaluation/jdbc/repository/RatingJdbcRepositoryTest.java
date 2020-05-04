@@ -62,6 +62,6 @@ public class RatingJdbcRepositoryTest extends BaseJdbcIntegrationTest {
 //        Movie saved = repository.save(m);
 //        Assertions.assertThat(saved.getId()).isNotNull();
         long count = repository.count();
-        Assertions.assertThat(count).isGreaterThanOrEqualTo(listCount);
+        Assertions.assertThat(count).isEqualTo(listCount);
     }
 }

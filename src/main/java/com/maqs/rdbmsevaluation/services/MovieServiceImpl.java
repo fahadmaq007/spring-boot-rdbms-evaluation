@@ -31,9 +31,6 @@ public class MovieServiceImpl extends AbstractService implements MovieService {
     @Autowired
     private TaskExecutor taskExecutor;
 
-//    @Autowired
-//    private MovieJdbcTemplate movieJdbcTemplate;
-
     @Override
     public Collection<String> importCsvFileThreadExecutor(File file, char separator) throws ServiceException {
         Collection<String> result = null;

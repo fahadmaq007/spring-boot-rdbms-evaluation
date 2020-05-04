@@ -30,8 +30,6 @@ spring:
         order_updates: true
 logging:
   level:
-    org:
-      hibernate: INFO
-      springframework: INFO
-    com:
-      maqs: DEBUG
+    org.hibernate: INFO
+    org.springframework: INFO
+    com.maqs: DEBUG

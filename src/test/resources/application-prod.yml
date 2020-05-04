@@ -26,9 +26,11 @@ spring:
 #        generate_statistics: true
 logging:
   level:
-    org.hibernate: INFO
+    root: WARN
+    com.maqs: DEBUG
+    org.springframework: WARN
     org:
-      hibernate:
-        SQL: DEBUG
-    org.springframework: INFO
-logging.level.com.maqs: DEBUG
+      springframework:
+        jdbc: DEBUG
+        data: DEBUG
+    org.hibernate: WARN
