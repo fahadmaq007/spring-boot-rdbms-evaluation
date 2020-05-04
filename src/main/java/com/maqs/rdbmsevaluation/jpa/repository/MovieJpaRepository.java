@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, Long> {
+public interface MovieJpaRepository extends JpaRepository<Movie, Long> {
 
     Page<Movie> findByTitleAndGenres(String title, String genres, Pageable pageable);
 }
