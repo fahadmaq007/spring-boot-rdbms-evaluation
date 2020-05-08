@@ -78,7 +78,7 @@ public class BatchExecutor {
             try {
                 batchCallback.accept(batchList);
             } catch (Exception e) {
-                return msg + e.getMessage();
+                log.error(msg + " " + e.getMessage(), e);
             }
             return null; //msg + "upsert task is done";
         }

@@ -33,7 +33,7 @@ public class RatingJpaRepositoryTest extends BaseJpaIntegrationTest {
     public  void testCsvFileImport() throws Exception {
         String file = "/data/002_ratings.csv";
         List<Rating> list = EntityUtil.readCsvFile(file, Rating.class, ',');
-        list = list.subList(0, 1000);
+//        list = list.subList(0, 1000);
         int listCount = list.size();
         long start = System.currentTimeMillis();
         List<Future<String>> futures = batchExecutor.parallelUpsert(list, batchCallback);

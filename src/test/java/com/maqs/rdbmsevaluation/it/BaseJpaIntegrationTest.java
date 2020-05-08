@@ -25,6 +25,8 @@ import java.util.function.Consumer;
 @EntityScan(basePackages = "com.maqs.rdbmsevaluation.jpa.model")
 @ContextConfiguration(classes = { TaskPoolConfiguration.class, BatchExecutor.class})
 @TestPropertySource(locations = { "classpath:application-default.properties" })
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+@Rollback(false)
 @Slf4j
 public abstract class BaseJpaIntegrationTest extends BaseTest {
 

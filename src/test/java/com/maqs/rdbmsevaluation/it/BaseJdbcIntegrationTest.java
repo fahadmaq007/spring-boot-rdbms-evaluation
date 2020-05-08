@@ -25,6 +25,7 @@ import java.util.function.Consumer;
 @ContextConfiguration(classes = { TaskPoolConfiguration.class, BatchExecutor.class})
 @TestPropertySource(locations = { "classpath:application-default.properties" })
 @AutoConfigureTestDatabase(replace = Replace.NONE)
+@Rollback(false)
 public abstract class BaseJdbcIntegrationTest extends BaseTest {
     protected CustomRepository repository;
 
