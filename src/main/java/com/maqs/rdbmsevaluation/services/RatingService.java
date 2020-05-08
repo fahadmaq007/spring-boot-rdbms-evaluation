@@ -1,8 +1,7 @@
 package com.maqs.rdbmsevaluation.services;
 
 import com.maqs.rdbmsevaluation.exceptions.ServiceException;
-import com.maqs.rdbmsevaluation.jpa.model.Movie;
-import com.maqs.rdbmsevaluation.jpa.model.Rating;
+import com.maqs.rdbmsevaluation.jdbc.model.Rating;
 import org.springframework.data.domain.Page;
 
 import java.io.File;

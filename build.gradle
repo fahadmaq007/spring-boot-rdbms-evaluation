@@ -13,29 +13,26 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
-
-repositories {
-	mavenCentral()
-}
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'mysql:mysql-connector-java'
-	runtimeOnly 'org.postgresql:postgresql'
+	compile('org.projectlombok:lombok:1.16.20')
+	compile 'mysql:mysql-connector-java'
+	compile 'org.postgresql:postgresql'
 
 	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: '2.11.0'
 	compile('commons-io:commons-io:2.5')
 	compile('commons-lang:commons-lang:2.6')
 
-	annotationProcessor 'org.projectlombok:lombok'
+	compile group: 'org.springframework.data', name: 'spring-data-jdbc', version: '2.0.0.M3'
+	compile group: 'org.springframework.data', name: 'spring-data-relational', version: '2.0.0.M3'
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.assertj:assertj-core:3.4.1')
 	testCompile('com.h2database:h2:1.4.200')
 	testCompile('junit:junit:4.12')
-	testImplementation 'org.springframework.boot:spring-boot-devtools'
+//	testImplementation 'org.springframework.boot:spring-boot-devtools'
 }
 
 test {

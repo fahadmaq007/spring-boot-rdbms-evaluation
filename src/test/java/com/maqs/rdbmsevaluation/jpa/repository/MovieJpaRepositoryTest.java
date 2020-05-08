@@ -1,8 +1,7 @@
-package com.maqs.rdbmsevaluation.jdbc.repository;
+package com.maqs.rdbmsevaluation.jpa.repository;
 
-import com.maqs.rdbmsevaluation.it.BaseJdbcIntegrationTest;
-import com.maqs.rdbmsevaluation.jdbc.model.BaseEntity;
-import com.maqs.rdbmsevaluation.jdbc.model.Movie;
+import com.maqs.rdbmsevaluation.it.BaseJpaIntegrationTest;
+import com.maqs.rdbmsevaluation.jpa.model.Movie;
 import com.maqs.rdbmsevaluation.services.BatchExecutor;
 import com.maqs.rdbmsevaluation.util.EntityUtil;
 import com.maqs.rdbmsevaluation.util.Util;
@@ -14,16 +13,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Future;
 
 @Slf4j
-public class MovieJdbcRepositoryTest extends BaseJdbcIntegrationTest {
+public class MovieJpaRepositoryTest extends BaseJpaIntegrationTest {
 
     @Autowired
-    private MovieJdbcRepository repository;
-
-    private long listCount = 27279;
+    private MovieJpaRepository repository;
 
     @Autowired
     private BatchExecutor repositoryExecutor;
@@ -32,13 +31,6 @@ public class MovieJdbcRepositoryTest extends BaseJdbcIntegrationTest {
     public  void setUp() throws Exception {
         log.debug("PostContruct setup");
         setRepository(repository);
-        repository.setParameterizedPreparedStatementSetter((ps, i) -> {
-            Movie r = (Movie) i;
-            ps.setString(1, r.getTitle());
-            ps.setString(2, r.getGenres());
-            ps.setLong(3, r.getId());
-        });
-        repository.setInsertSql(Movie.INSERT_SQL);
     }
 
     @Test
@@ -46,14 +38,15 @@ public class MovieJdbcRepositoryTest extends BaseJdbcIntegrationTest {
         String file = "/data/movies.csv";
         List<Movie> list = EntityUtil.readCsvFile(file, Movie.class, ',');
             list = list.subList(0, 1000);
-        listCount = list.size();
+        int listCount = list.size();
         long start = System.currentTimeMillis();
 
-        List<Future<String>> futures = repositoryExecutor.parallelUpsert(list, batchInsertCallback);
+        List<Future<String>> futures = repositoryExecutor.parallelUpsert(list, batchCallback);
         Collection<String> messages = BatchExecutor.getResults(futures);
-//            Collection<String> messages = repositoryExecutor.upsert(repository, list);
+//            Collection<String> messages = repositoryExecutor.upsert(movieRepository, list);
         log.debug(messages.toString());
         Util.printTimeTaken(start, "Inserted " + list.size() + " records");
+
         long count = repository.count();
         Assertions.assertThat(count).isEqualTo(listCount);
     }
@@ -65,9 +58,7 @@ public class MovieJdbcRepositoryTest extends BaseJdbcIntegrationTest {
         m.setTitle("Title");
         m.setGenres("Comedy");
 
-        BaseEntity saved = repository.upsert(m);
-
-        repository.saveAll(new ArrayList<>());
+        Movie saved = repository.save(m);
         Long id = saved.getId();
         Assertions.assertThat(id).isNotNull();
 
@@ -82,9 +73,8 @@ public class MovieJdbcRepositoryTest extends BaseJdbcIntegrationTest {
     @Test
     public void testListMoviesByTitle() {
         Pageable p = Util.getPageRequest(null, 1, 20);
-//        Page<Movie> page = repository.findAll(p);
-        Iterable<Movie> page = repository.findAll();
-//        log.debug("Page is " + page.getNumber() + " " + page.getTotalElements() + " " + page.getContent() );
+        Page<Movie> page = repository.findAll(p);
+        log.debug("Page is " + page.getNumber() + " " + page.getTotalElements() + " " + page.getContent() );
         Assertions.assertThat(page).isNotNull();
     }
 }

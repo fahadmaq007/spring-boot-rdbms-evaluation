@@ -1,7 +1,7 @@
 package com.maqs.rdbmsevaluation.controller;
 
 import com.maqs.rdbmsevaluation.exceptions.ServiceException;
-import com.maqs.rdbmsevaluation.jpa.model.Movie;
+import com.maqs.rdbmsevaluation.jdbc.model.Movie;
 import com.maqs.rdbmsevaluation.services.MovieService;
 import com.maqs.rdbmsevaluation.util.Util;
 import lombok.extern.slf4j.Slf4j;

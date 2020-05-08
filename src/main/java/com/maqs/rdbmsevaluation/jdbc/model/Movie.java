@@ -6,25 +6,26 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.domain.Persistable;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table(value = "movie")
 @Getter
 @Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({"id", "title", "genres"})
-public class Movie {
+public class Movie extends BaseEntity {
+    public static final String INSERT_SQL = "insert into movie (title, genres, id) values (?,?,?)";
+
+    public static final String UPDATE_SQL = "update movie set title = ?, genres = ? where id = ?";
 
     public static final String[] COLUMNS = {"id", "title", "genres"};
 
-    @Id
-    @JsonProperty(value = "id")
-    private Long id;
-
     @JsonProperty(value = "title")
+    @Column(value = "title")
     private String title;
 
     @JsonProperty(value = "genres")
+    @Column(value = "genres")
     private String genres;
-
 }

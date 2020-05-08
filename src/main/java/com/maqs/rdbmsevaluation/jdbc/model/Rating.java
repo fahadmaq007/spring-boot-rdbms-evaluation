@@ -15,10 +15,11 @@ import java.util.Date;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({"userId", "movieId", "rating", "ratedOn"})
-public class Rating {
+public class Rating extends BaseEntity {
 
-    @Id
-    private Long id;
+    public static final String INSERT_SQL = "insert into rating (user_id, movie_id, rating, rated_on) values (?,?,?,?)";
+
+    public static final String UPDATE_SQL = "update rating set user_id = ?, movie_id = ?, rating = ?, rated_on = ? where id = ?";
 
     @JsonProperty(value = "userId")
     private Long userId;

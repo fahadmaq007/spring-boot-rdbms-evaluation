@@ -16,45 +16,60 @@ package com.maqs.rdbmsevaluation.jdbc.repository;
  * limitations under the License.
  */
 
-import com.maqs.rdbmsevaluation.jdbc.model.Rating;
+import com.maqs.rdbmsevaluation.jdbc.model.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate;
+import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.util.Assert;
 
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Jens Schauder
  */
 @Slf4j
-public class CustomRepositoryImpl<T, ID> implements CustomRepository<T, ID> {
+public class CustomRepositoryImpl<T extends BaseEntity, ID> implements CustomRepository<T, ID> {
     @Autowired
-    JdbcAggregateTemplate template;
+    JdbcAggregateTemplate jdbcAggregateTemplate;
 
     @Autowired
     NamedParameterJdbcOperations namedParameterJdbcOperations;
 
+    private ParameterizedPreparedStatementSetter parameterizedPreparedStatementSetter;
+
+    private String insertSql;
+
+    private String updateSql;
+
     @Override
-    public T insert(T t) {
-        return template.insert(t);
+    public BaseEntity upsert(BaseEntity t) {
+        Long id = t.getId();
+        if (id != null) {
+            boolean exists = jdbcAggregateTemplate.existsById(id, t.getClass());
+            t.setNew(! exists);
+        }
+        return jdbcAggregateTemplate.save(t);
     }
 
     @Override
-    public List<T> insert(List<T> list, int batchSize) {
-        return null; //template.;
-    }
-
-    @Override
-    public int[] batchUpdate(String sql, List<T> list) {
-        namedParameterJdbcOperations.getJdbcOperations().batchUpdate(sql, list, 100, (ps, i) -> {
-            Rating r = (Rating) i;
-            ps.setLong(1, r.getUserId());
-            ps.setLong(2, r.getMovieId());
-            ps.setDouble(3, r.getRating());
-            ps.setDate(4, new Date(r.getRatedOn().getTime()));
-        });
+    public int[] insertInBatch(List<? extends BaseEntity> list, int batchSize) {
+        Assert.notNull(parameterizedPreparedStatementSetter, "ParameterizedPreparedStatementSetter must not be null");
+        Assert.notNull(insertSql, "insertSql must not be null");
+        namedParameterJdbcOperations.getJdbcOperations().batchUpdate(insertSql, list, batchSize, parameterizedPreparedStatementSetter);
         return null;
+    }
+
+    @Override
+    public void setParameterizedPreparedStatementSetter(ParameterizedPreparedStatementSetter ps) {
+        this.parameterizedPreparedStatementSetter = ps;
+    }
+
+    @Override
+    public void setInsertSql(String insertSql) {
+        this.insertSql = insertSql;
     }
 }
