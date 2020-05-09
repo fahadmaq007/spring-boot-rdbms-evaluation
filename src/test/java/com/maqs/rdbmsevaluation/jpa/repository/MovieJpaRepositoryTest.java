@@ -54,7 +54,7 @@ public class MovieJpaRepositoryTest extends BaseJpaIntegrationTest {
     @Test
     public void testMovieInsertion() {
         Movie m = new Movie();
-        m.setId(6l);
+        m.setId(-1l);
         m.setTitle("Title");
         m.setGenres("Comedy");
 
