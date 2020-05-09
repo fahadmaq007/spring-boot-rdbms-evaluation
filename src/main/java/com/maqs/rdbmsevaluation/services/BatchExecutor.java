@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Component
 public class BatchExecutor {
 
-    private static  final int BATCH_SIZE = 100;
+    private static  final int BATCH_SIZE = 1000;
 
     @Autowired
     private TaskExecutor taskExecutor;

@@ -16,13 +16,15 @@ import java.util.Date;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder({"userId", "movieId", "rating", "ratedOn"})
-public class Rating {
+@JsonPropertyOrder({"id", "userId", "movieId", "rating", "ratedOn"})
+public class Rating extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
 
     @Column(name = "user_id", nullable = true)
     @JsonProperty(required=true)

@@ -14,13 +14,15 @@ import javax.persistence.*;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({"id", "title", "genres"})
-public class Movie {
+public class Movie extends BaseEntity {
 
     public static final String[] COLUMNS = {"id", "title", "genres"};
 
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
 
     @Column(name = "title", nullable = false)
     private String title;

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
@@ -31,9 +32,9 @@ public class RatingJpaRepositoryTest extends BaseJpaIntegrationTest {
     }
     @Test
     public  void testCsvFileImport() throws Exception {
-        String file = "/data/002_ratings.csv";
+        String file = "/data/001_ratings.csv";
         List<Rating> list = EntityUtil.readCsvFile(file, Rating.class, ',');
-//        list = list.subList(0, 1000);
+//        list = list.subList(0, 100000);
         int listCount = list.size();
         long start = System.currentTimeMillis();
         List<Future<String>> futures = batchExecutor.parallelUpsert(list, batchCallback);

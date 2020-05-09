@@ -2,6 +2,7 @@ package com.maqs.rdbmsevaluation.it;
 
 import com.maqs.rdbmsevaluation.BaseTest;
 import com.maqs.rdbmsevaluation.config.TaskPoolConfiguration;
+import com.maqs.rdbmsevaluation.jpa.repository.CustomRepository;
 import com.maqs.rdbmsevaluation.services.BatchExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.runner.RunWith;
@@ -30,16 +31,15 @@ import java.util.function.Consumer;
 @Slf4j
 public abstract class BaseJpaIntegrationTest extends BaseTest {
 
-    protected JpaRepository repository;
+    protected CustomRepository repository;
 
-    protected void setRepository(JpaRepository repository) {
+    protected void setRepository(CustomRepository repository) {
         this.repository = repository;
     }
 
     protected Consumer<List> batchCallback = (batchList) -> {
         log.debug("batchCallack is called on " + repository);
-        repository.saveAll(batchList);
-        repository.flush();
+        repository.insertInBatch(batchList);
     };
 
 }
