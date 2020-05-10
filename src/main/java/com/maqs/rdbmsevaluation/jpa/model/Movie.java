@@ -19,6 +19,7 @@ public class Movie extends BaseEntity {
     public static final String[] COLUMNS = {"id", "title", "genres"};
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Override
     public Long getId() {
         return super.getId();

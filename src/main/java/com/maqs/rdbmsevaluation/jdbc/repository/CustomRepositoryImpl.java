@@ -57,9 +57,11 @@ public class CustomRepositoryImpl<T extends BaseEntity, ID> implements CustomRep
 
     @Override
     public int[] insertInBatch(List<? extends BaseEntity> list, int batchSize) {
-        Assert.notNull(parameterizedPreparedStatementSetter, "ParameterizedPreparedStatementSetter must not be null");
+        Assert.notNull(parameterizedPreparedStatementSetter,
+                "ParameterizedPreparedStatementSetter must not be null");
         Assert.notNull(insertSql, "insertSql must not be null");
-        namedParameterJdbcOperations.getJdbcOperations().batchUpdate(insertSql, list, batchSize, parameterizedPreparedStatementSetter);
+        namedParameterJdbcOperations.getJdbcOperations().batchUpdate(insertSql, list,
+                batchSize, parameterizedPreparedStatementSetter);
         return null;
     }
 
