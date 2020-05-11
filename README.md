@@ -5,4 +5,4 @@ An article detailing the project is shared <a href="https://medium.com/@maqbool.
 
 How to run?
 ***********
-It's a gradle project built using Spring Boot2. Since it's an evaluation, run the individual test cases in your favourite IDE.
+It's a gradle project built using Spring Boot2. Run it with gradle test command. Since it's an evaluation I generally run the individual test cases in the IDE to capture the test results.
