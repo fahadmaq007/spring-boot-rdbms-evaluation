@@ -18,6 +18,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	compile('org.projectlombok:lombok:1.16.20')
+	annotationProcessor('org.projectlombok:lombok:1.16.20')
 	compile 'mysql:mysql-connector-java'
 	compile 'org.postgresql:postgresql'
 
