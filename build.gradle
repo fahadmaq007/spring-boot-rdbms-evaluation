@@ -33,6 +33,7 @@ dependencies {
 	testCompile('org.assertj:assertj-core:3.4.1')
 	testCompile('com.h2database:h2:1.4.200')
 	testCompile('junit:junit:4.12')
+	testAnnotationProcessor('org.projectlombok:lombok:1.16.20')
 //	testImplementation 'org.springframework.boot:spring-boot-devtools'
 }
 
